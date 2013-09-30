@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.w.push.dao.AppDao">
+    <!-- 缓存30分钟 -->
+    <cache flushInterval="1800000" size="1024" readOnly="true" eviction="LRU"></cache>
+    
+    <resultMap id="BaseResultMap" type="com.w.push.entity.App" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="partnerId" property="partnerId" jdbcType="BIGINT" />
+    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+    <select id="count" resultType="int">
+        select count(*) c from app;
+    </select>
+    <insert id="save">
+      INSERT INTO app(name,partnerId,createTime) 
+      VALUES(#{name},#{partnerId},#{createTime})
+    </insert>
+    <select id="getEntity"  resultType="com.w.push.entity.App">
+      SELECT * FROM app
+    </select>
+    <select id="getEntityById" parameterType="Long" resultType="com.w.push.entity.App" useCache="true">
+      SELECT * FROM app WHERE id=#{id}
+    </select>
+    <delete id="delete" parameterType="String">
+      DELETE FROM app WHERE id=#{id}
+    </delete>
+    <update id="update" parameterType="com.w.push.entity.App">
+      UPDATE app
+      SET name=#{name},partnerId=#{partnerId}
+      WHERE id=#{id}
+    </update>
+    <sql id="Base_Column_List" >
+    id, name,partnerId, createTime
+  </sql>
+  <sql id="Example_Order_Clause">
+  	<trim prefix="order by" prefixOverrides="," >
+  		<if test="orderMap.id != null">
+  			,id #{orderMap.id}
+  		</if>
+  		<if test="orderMap.name != null">
+  			,id #{orderMap.name}
+  		</if>
+  		<if test="orderMap.createTime != null" >
+         and createTime #{orderMap.createTime}
+      </if>
+  	</trim>
+  </sql>
+  
+  <sql id="Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="condition.name != null" >
+         and name = #{condition.name}
+      </if>
+      <if test="condition.usernameLike != null" >
+         and name like '%${condition.nameLike}%'
+      </if>
+    </trim>
+  </sql>
+  <select id="countByCriteria" parameterType="com.w.core.model.Criteria" resultType="java.lang.Integer" >
+    select count(*) from app
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+    <select id="findListByCriteria" resultMap="BaseResultMap" parameterType="com.w.core.model.Criteria" >
+    select
+    <include refid="Base_Column_List" />
+    from app
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="_parameter != null" >
+      <include refid="Example_Order_Clause" />
+    </if>
+    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+</mapper>
