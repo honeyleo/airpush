@@ -1,36 +1,30 @@
 package com.w.push.web.rest;
 
-import java.io.IOException;
-
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.huizhi.dass.common.util.RequestUtil;
+import com.w.core.exception.AppException;
+import com.w.core.model.Message;
+import com.w.push.quartz.init.DataInit;
 
 @Controller
 @RequestMapping("/test")
 public class Test {
 
-	private HttpServletResponse response;
+	@Resource private DataInit dataInit;
 	
-	@RequestMapping("/poll")
-	public void poll(HttpServletRequest request, HttpServletResponse response) {
-		String msg = RequestUtil.getString(request, "msg");
-		try {
-			this.response.getWriter().write(msg);
-			this.response.getWriter().flush();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	@RequestMapping("/push")
-	public void push(HttpServletRequest request, HttpServletResponse response) {
-		
-		this.response = response;
-		
+	@RequestMapping("/dataInit")
+	@ResponseBody
+	public Message dataInit(HttpServletRequest request, 
+			HttpServletResponse response) throws AppException {
+		Message.Builder builder = Message.Builder.newBuilder();
+		dataInit.init();
+		builder.put("c", 0);
+		return builder.build();
 	}
 }

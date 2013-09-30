@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.w.push.dao.PushLogDao">
+	<!-- 缓存30分钟 -->
+	<cache flushInterval="1800000" size="1024" readOnly="true"
+		eviction="LRU"></cache>
+
+	<resultMap id="BaseResultMap" type="com.w.push.entity.PushLog">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="contentId" property="contentId" jdbcType="BIGINT" />
+		<result column="uui" property="uui" jdbcType="VARCHAR" />
+		<result column="channelId" property="channelId" jdbcType="BIGINT" />
+		<result column="partnerId" property="partnerId" jdbcType="BIGINT" />
+		<result column="appId" property="appId" jdbcType="BIGINT" />
+		<result column="pushTime" property="pushTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<sql id="Example_Order_Clause">
+		<trim prefix="order by" prefixOverrides=",">
+			<if test="orderMap.id != null">
+				,id #{orderMap.id}
+			</if>
+			<if test="orderMap.uui != null">
+				,id #{orderMap.uui}
+			</if>
+			<if test="orderMap.pushTime != null">
+				and pushTime #{orderMap.pushTime}
+			</if>
+		</trim>
+	</sql>
+
+	<sql id="Example_Where_Clause">
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="condition.uui != null">
+				and uui = #{condition.uui}
+			</if>
+		</trim>
+	</sql>
+	<select id="count" resultType="int">
+		select count(*) c from pushLog;
+	</select>
+	<insert id="save">
+		INSERT INTO pushLog(contentId,uui,channelId,partnerId,appId,pushTime,status)
+		VALUES(#{contentId},#{uui},#{channelId},#{partnerId},#{appId},#{pushTime},#{status})
+	</insert>
+	<insert id="insertInto">
+		INSERT INTO pushLog(contentId,uui,channelId,partnerId,appId,status,hitTime)
+		VALUES(#{contentId},#{uui},#{channelId},#{partnerId},#{appId},#{status},#{hitTime})
+		ON DUPLICATE KEY UPDATE channelId=VALUES(channelId),partnerId=VALUES(partnerId),appId=VALUES(appId),status=VALUES(status),hitTime=VALUES(hitTime)
+	</insert>
+	<select id="getEntity" resultType="com.w.push.entity.PushLog">
+		SELECT * FROM pushLog
+	</select>
+	<select id="getEntityById" parameterType="Long"
+		resultType="com.w.push.entity.PushLog" useCache="true">
+		SELECT * FROM pushLog WHERE id=#{id}
+	</select>
+	<delete id="delete" parameterType="String">
+		DELETE FROM pushLog WHERE id=#{id}
+	</delete>
+	<update id="update" parameterType="com.w.push.entity.PushLog">
+		UPDATE pushLog
+		<set>
+			<if test="contentId != null">
+				contentId = #{contentId},
+			</if>
+			<if test="uui != null">
+				uui = #{uui},
+			</if>
+		</set>
+		WHERE id=#{id}
+	</update>
+	<update id="hit" parameterType="com.w.push.entity.PushLog">
+		UPDATE pushLog
+		<set>
+			<if test="status != null">
+				status = #{status},
+			</if>
+			<if test="hitTime != null">
+				hitTime = #{hitTime},
+			</if>
+		</set>
+		WHERE contentId=#{contentId} and uui=#{uui}
+	</update>
+	<sql id="Base_Column_List">
+		id,contentId,uui,channelId,partnerId,appId,pushTime,status,hitTime
+	</sql>
+	<select id="countByCriteria" parameterType="com.w.core.model.Criteria"
+		resultType="java.lang.Integer">
+		select count(*) from pushLog
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<select id="findListByCriteria" resultMap="BaseResultMap"
+		parameterType="com.w.core.model.Criteria">
+		select
+		<include refid="Base_Column_List" />
+		from pushLog
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="_parameter != null">
+			<include refid="Example_Order_Clause" />
+		</if>
+		<include refid="common.Mysql_Pagination_Limit" />
+	</select>
+</mapper>

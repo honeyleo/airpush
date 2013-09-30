@@ -13,5 +13,7 @@
         <mapper resource="com/w/push/entity/mapper/ChannelMapper.xml" />
         <mapper resource="com/w/push/entity/mapper/PushContentMapper.xml" />
         <mapper resource="com/w/push/entity/mapper/PushCriteriaMapper.xml" />
+        <mapper resource="com/w/push/entity/mapper/DeviceMapper.xml" />
+        <mapper resource="com/w/push/entity/mapper/PushLogMapper.xml" />
     </mappers>
 </configuration>

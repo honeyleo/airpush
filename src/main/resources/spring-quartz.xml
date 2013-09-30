@@ -22,7 +22,7 @@
     <bean id="logCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">  
           <property name="jobDetail" ref="logJobDetail"/>  
          <property name="cronExpression">  
-              <value>0/10 * * * * ?</value>  
+              <value>0/60 * * * * ?</value>  
           </property>
      </bean>
      
@@ -34,7 +34,7 @@
     <bean id="logStoreCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">  
           <property name="jobDetail" ref="logStoreJobDetail"/>  
          <property name="cronExpression">  
-              <value>0 14 17 * * ? *</value>  
+              <value>0 55 14 * * ? *</value>  
           </property>
      </bean>
      <bean id="dataInit" class="com.w.push.quartz.init.DataInit"/>

@@ -16,7 +16,11 @@ public class PushLog {
 	
 	private Long appId;
 	
+	private Integer status;//0-推送；1-点击
+	
 	private Date pushTime;
+	
+	private Date hitTime;
 
 	public Long getId() {
 		return id;
@@ -77,6 +81,24 @@ public class PushLog {
 
 	public PushLog setPushTime(Date pushTime) {
 		this.pushTime = pushTime;
+		return this;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public PushLog setStatus(Integer status) {
+		this.status = status;
+		return this;
+	}
+
+	public Date getHitTime() {
+		return hitTime;
+	}
+
+	public PushLog setHitTime(Date hitTime) {
+		this.hitTime = hitTime;
 		return this;
 	}
 	

@@ -1,5 +1,7 @@
 package com.w.push.entity;
 
+import java.util.Date;
+
 public class Device {
 
 	private Long id;
@@ -17,6 +19,8 @@ public class Device {
 	private String operator;//运营商
 	
 	private Boolean online;//在线否
+	
+	private Date createTime;
 
 	public Long getId() {
 		return id;
@@ -80,6 +84,14 @@ public class Device {
 
 	public void setOnline(Boolean online) {
 		this.online = online;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
 	
 	

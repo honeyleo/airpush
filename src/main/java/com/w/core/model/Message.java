@@ -7,6 +7,17 @@ public class Message extends HashMap<String,Object> {
 
 	private static final long serialVersionUID = -8476898437116996416L;
 
+	public String getString(String key) {
+		Object value = this.get(key);
+		return value != null ? value.toString() : "";
+	}
+	public Long getLong(String key) {
+		Object value = this.get(key);
+		if(value instanceof Long) {
+			return (Long) value;
+		}
+		return 0L;
+	}
 	private Message(Builder builder) {
 		this.putAll(builder.data);
 	}

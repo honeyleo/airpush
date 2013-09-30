@@ -78,12 +78,14 @@ public class PushManager {
 					}
 				}
 				if(flag) {
+					
 					Message.Builder dBuilder = Message.Builder.newBuilder();
 					dBuilder.put("id", entity.getId()).put("title", entity.getTitle()).put("content", entity.getContent())
-						.put("type", entity.getType()).put("msgType", entity.getMsgType()).put("url", entity.getUrl()).put("status", entity.getStatus());
+						.put("type", entity.getType()).put("msgType", entity.getMsgType()).put("url", entity.getUrl());
 					data.add(dBuilder.build());
+					
 					PushLog pushLog = new PushLog();
-					pushLog.setAppId(appId).setChannelId(channelId).setContentId(entity.getId()).setUui(uui).setPartnerId(app.getPartnerId()).setPushTime(new Date());
+					pushLog.setAppId(appId).setChannelId(channelId).setContentId(entity.getId()).setUui(uui).setPartnerId(app.getPartnerId()).setPushTime(new Date()).setStatus(0);
 					LogScheduleInfoManager.add(pushLog);
 				}
 			}
@@ -98,6 +100,36 @@ public class PushManager {
 	}
 	
 	public Message hit(String uui, String qn, Long cid) {
-		return null;
+		Message.Builder builder = Message.Builder.newBuilder();
+		Cache cache = Cache.getInstance();
+		try {
+			if(Strings.isNullOrEmpty(qn)) {
+				throw new AppException("100", "qn error");
+			}
+			String[] qns = qn.split("-");
+			if(qns.length < 2) {
+				throw new AppException("100", "qn error");
+			}
+			long channelId = Long.parseLong(qns[0]);
+			String channel = cache.hget(Key.KEY_CHANNEL, qns[0]);
+			if(Strings.isNullOrEmpty(channel)) {
+				throw new AppException("101", "channel not found");
+			}
+			long appId = Long.parseLong(qns[1]);
+			String aValue = cache.hget(Key.KEY_APP, qns[1]);
+			App app = JSON.parseObject(aValue, App.class);
+			if(app == null) {
+				throw new AppException("102", "channel not found");
+			}
+			PushLog hitLog = new PushLog();
+			hitLog.setAppId(appId).setChannelId(channelId).setContentId(cid).setUui(uui).setPartnerId(app.getPartnerId()).setHitTime(new Date()).setStatus(1);
+			LogScheduleInfoManager.addHitLog(hitLog);
+			builder.put("c", 0);
+		}catch(AppException e) {
+			builder.put("c", e.getCode()).put("m", e.getMessage());
+		} catch (Exception e) {
+			builder.put("c", "200").put("m", "system error");
+		}
+		return builder.build();
 	}
 }

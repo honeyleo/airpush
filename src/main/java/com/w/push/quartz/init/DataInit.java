@@ -44,14 +44,14 @@ public class DataInit {
 		Criteria criteria = new Criteria();
 		List<Channel> list = channelService.findListByCriteria(criteria);
 		for(Channel entity : list) {
-			cache.hset(Key.KEY_CHANNEL, String.valueOf(entity.getId()), entity.getName(), DataInit.EXPIRE);
+			cache.hset(Key.KEY_CHANNEL, String.valueOf(entity.getId()), entity.getName());
 		}
 	}
 	private void initPartner() {
 		Criteria criteria = new Criteria();
 		List<Partner> list = partnerService.findListByCriteria(criteria);
 		for(Partner entity : list) {
-			cache.hset(Key.KEY_PARTNER, String.valueOf(entity.getId()), entity.getName(), DataInit.EXPIRE);
+			cache.hset(Key.KEY_PARTNER, String.valueOf(entity.getId()), entity.getName());
 		}
 	}
 	private void initApp() {
@@ -59,7 +59,7 @@ public class DataInit {
 		List<App> list = appService.findListByCriteria(criteria);
 		for(App entity : list) {
 			String value = JSON.toJSONString(entity);
-			cache.hset(Key.KEY_APP, String.valueOf(entity.getId()), value, DataInit.EXPIRE);
+			cache.hset(Key.KEY_APP, String.valueOf(entity.getId()), value);
 		}
 	}
 	
@@ -69,14 +69,14 @@ public class DataInit {
 		List<PushContent> list = pushContentService.findListByCriteria(criteria);
 		for(PushContent entity : list) {
 			String value = JSON.toJSONString(entity);
-			cache.hset(Key.KEY_CONTENT, String.valueOf(entity.getId()), value, DataInit.EXPIRE);
+			cache.hset(Key.KEY_CONTENT, String.valueOf(entity.getId()), value);
 			Criteria criteria2 = new Criteria();
 			criteria2.put("status", 1);
 			criteria2.put("contentId", entity.getId());
 			List<PushCriteria> cList = pushCriteriaService.findListByCriteria(criteria2);
 			for(PushCriteria ec : cList) {
 				String value2 = JSON.toJSONString(ec);
-				cache.hset(Key.KEY_CRITERIA + entity.getId(), String.valueOf(ec.getId()), value2, DataInit.EXPIRE);
+				cache.hset(Key.KEY_CRITERIA + entity.getId(), String.valueOf(ec.getId()), value2);
 			}
 		}
 	}
