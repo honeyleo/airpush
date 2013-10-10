@@ -19,7 +19,7 @@
         select count(*) c from pushContent;
     </select>
     <insert id="save">
-      INSERT INTO pushContent(title,content,type,url,status,createTime) 
+      INSERT INTO pushContent(title,content,type,msgType,url,status,createTime) 
       VALUES(#{title},#{content},#{type},#{msgType},#{url},#{status},#{createTime})
     </insert>
     <select id="getEntity"  resultType="com.w.push.entity.PushContent">

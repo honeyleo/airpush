@@ -72,11 +72,35 @@
   <function-class>com.huizhi.dass.common.web.Funcs</function-class>
   <function-signature>java.lang.String getPartnerName(java.lang.Long)</function-signature>
  </function>
- 
+ <function>
+  <name>getChannelName</name>
+  <function-class>com.huizhi.dass.common.web.Funcs</function-class>
+  <function-signature>java.lang.String getChannelName(java.lang.Long)</function-signature>
+ </function>
+ <function>
+  <name>getAppName</name>
+  <function-class>com.huizhi.dass.common.web.Funcs</function-class>
+  <function-signature>java.lang.String getAppName(java.lang.Long)</function-signature>
+ </function>
  <function>
   <name>getPushContentTitle</name>
   <function-class>com.huizhi.dass.common.web.Funcs</function-class>
   <function-signature>java.lang.String getPushContentTitle(java.lang.Long)</function-signature>
+ </function>
+ <function>
+  <name>getCmd</name>
+  <function-class>com.huizhi.dass.common.web.Funcs</function-class>
+  <function-signature>java.lang.String getCmd(java.lang.Integer)</function-signature>
+ </function>
+ <function>
+  <name>getMsgType</name>
+  <function-class>com.huizhi.dass.common.web.Funcs</function-class>
+  <function-signature>java.lang.String getMsgType(java.lang.Integer)</function-signature>
+ </function>
+ <function>
+  <name>getStatus</name>
+  <function-class>com.huizhi.dass.common.web.Funcs</function-class>
+  <function-signature>java.lang.String getStatus(java.lang.Integer)</function-signature>
  </function>
  
 </taglib>

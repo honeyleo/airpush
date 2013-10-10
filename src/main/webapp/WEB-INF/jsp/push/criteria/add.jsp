@@ -10,19 +10,24 @@
     <form method="post" action="view/criteria/add" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
     	<input name="contentId" type="text" value="${contentId}" hidden="true" class=""/>
 	    <div class="pageFormContent" layoutH="60">
-	      <div class="unit">
-	        <label>渠道：</label>
-	        <input name="channelId" type="text" size="40" class=""/>
-	      </div>
-	      
-	      <div class="unit">
-	        <label>商户：</label>
-            <input name="partnerId" type="text" size="40" class=""/>
-	      </div>
-	      <div class="unit">
-	        <label>应用：</label>
-  			<input name="appId" type="text" size="40" class=""/>
-	      </div>
+	      <p>
+	      	<label>关联渠道：</label>
+            <input type="hidden" name="operator.channelId" />
+        	<input class="textInput" style="float: left;" type="text" name="operator.channelName"/>
+        	<a class="btnLook"  lookupgroup="operator" href="view/criteria/channelLookup">查找带回</a>
+	      </p>
+	      <p>
+	      	<label>关联商户：</label>
+            <input type="hidden" name="operator.partnerId" />
+        	<input class="textInput" style="float: left;" type="text" name="operator.partnerName"/>
+        	<a class="btnLook"  lookupgroup="operator" href="view/criteria/partnerLookup">查找带回</a>
+	      </p>
+	      <p>
+	      	<label>关联应用：</label>
+            <input type="hidden" name="operator.appId" />
+        	<input class="textInput" style="float: left;" type="text" name="operator.appName"/>
+        	<a class="btnLook"  lookupgroup="operator" href="view/criteria/appLookup">查找带回</a>
+	      </p>
 	      <div class="unit">
 	        <label>开始时间：</label>
             <input name="startTime" type="text" size="20" value="" class="date textInput readonly" readonly="true" format="yyyy-MM-dd HH:mm:ss"/>
@@ -44,8 +49,8 @@
 	      </div>
 	      <p>
 	      	<label>关联内容：</label>
-            <input type="hidden" name="operator.id" />
-        	<input class="textInput" style="float: left;" type="text" name="operator.name"/>
+            <input type="hidden" name="operator.contentId" />
+        	<input class="textInput" style="float: left;" type="text" name="operator.contentTitle"/>
         	<a class="btnLook"  lookupgroup="operator" href="view/criteria/contentLookup">查找带回</a>
 	      </p>
 	    </div>

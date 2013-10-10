@@ -87,6 +87,12 @@
       <if test="condition.appId != null" >
          and appId = #{condition.appId}
       </if>
+      <if test="condition.startTime != null" >
+         and #{condition.startTime} > startTime
+      </if>
+      <if test="condition.endTime != null" >
+         and endTime > #{condition.endTime}
+      </if>
     </trim>
   </sql>
   <select id="countByCriteria" parameterType="com.w.core.model.Criteria" resultType="java.lang.Integer" >

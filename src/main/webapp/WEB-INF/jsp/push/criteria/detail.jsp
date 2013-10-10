@@ -5,19 +5,24 @@
 <div class="pageContent">
     <form method="post" action="view/criteria/update" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
         <div class="pageFormContent" layoutH="60">
-	      <div class="unit">
-	        <label>渠道：</label>
-	        <input name="channelId" value="${requestScope.entity.channelId}" type="text" size="40" class=""/>
-	      </div>
-	      
-	      <div class="unit">
-	        <label>商户：</label>
-            <input name="partnerId" value="${requestScope.entity.partnerId}" type="text" size="40" class=""/>
-	      </div>
-	      <div class="unit">
-	        <label>应用：</label>
-  			<input name="appId" value="${requestScope.entity.appId}" type="text" size="40" class=""/>
-	      </div>
+          <p>
+	      	<label>关联渠道：</label>
+            <input type="hidden" name="operator.channelId" value="${requestScope.entity.channelId }"/>
+        	<input class="textInput" style="float: left;" type="text" name="operator.channelName" value="${funcs:getChannelName(requestScope.entity.channelId) }"/>
+        	<a class="btnLook"  lookupgroup="operator" href="view/criteria/channelLookup">查找带回</a>
+	      </p>
+	      <p>
+	      	<label>关联商户：</label>
+            <input type="hidden" name="operator.partnerId" value="${requestScope.entity.partnerId }"/>
+        	<input class="textInput" style="float: left;" type="text" name="operator.partnerName" value="${funcs:getPartnerName(requestScope.entity.partnerId) }"/>
+        	<a class="btnLook"  lookupgroup="operator" href="view/criteria/partnerLookup">查找带回</a>
+	      </p>
+	      <p>
+	      	<label>关联应用：</label>
+            <input type="hidden" name="operator.appId" value="${requestScope.entity.appId }"/>
+        	<input class="textInput" style="float: left;" type="text" name="operator.appName" value="${funcs:getAppName(requestScope.entity.appId) }"/>
+        	<a class="btnLook"  lookupgroup="operator" href="view/criteria/appLookup">查找带回</a>
+	      </p>
 	      <div class="unit">
 	        <label>开始时间：</label>
             <input name="startTime" type="text" size="20" value="${funcs:formatDateTime(entity.startTime,'yyyy-MM-dd hh:mm:ss')}" class="date textInput readonly" readonly="true" format="yyyy-MM-dd HH:mm:ss"/>
@@ -39,8 +44,8 @@
 	      </div>
 	      <p>
 	      	<label>关联内容：</label>
-            <input type="hidden" name="operator.id" value="${requestScope.entity.contentId }"/>
-        	<input class="textInput" style="float: left;" value="${funcs:getPushContentTitle(requestScope.entity.contentId) }" type="text" name="operator.name"/>
+            <input type="hidden" name="operator.contentId" value="${requestScope.entity.contentId }"/>
+        	<input class="textInput" style="float: left;" value="${funcs:getPushContentTitle(requestScope.entity.contentId) }" type="text" name="operator.contentTitle"/>
         	<a class="btnLook"  lookupgroup="operator" href="view/criteria/contentLookup">查找带回</a>
 	      </p>
 	    </div>

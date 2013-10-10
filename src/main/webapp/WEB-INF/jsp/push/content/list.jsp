@@ -46,7 +46,7 @@
                 <th width="120">URL</th>
                 <th width="120">状态</th>
                 <th width="120">创建时间</th>
-                <th width="120">推送设置</th>
+                <th width="120"></th>
             </tr>
         </thead>
         <tbody>
@@ -56,12 +56,12 @@
                 <td>${entity.id}</td>
                 <td>${entity.title}</td>
                 <td>${entity.content}</td>
-                <td>${entity.type}</td>
-                <td>${entity.msgType}</td>
+                <td>${funcs:getCmd(entity.type)}</td>
+                <td>${funcs:getMsgType(entity.msgType)}</td>
                 <td>${entity.url}</td>
-                <td>${entity.status}</td>
+                <td>${funcs:getStatus(entity.status)}</td>
                 <td>${funcs:formatDateTime(entity.createTime,'yyyy-MM-dd hh:mm:ss')}</td>
-                <td><a href="view/criteria/list?contentId=${entity.id}" target="dialog" mask="true" target="dialog" minable="false" width="500" height="600"><span style="color:blue">查看</span></a></td>
+                <td><a href="view/content/detail?id=${entity.id}" target="dialog" mask="true" target="dialog" minable="false" width="500" height="600"><span style="color:blue">查看</span></a></td>
             </tr>
         </c:forEach>
         </tbody>

@@ -21,8 +21,13 @@ import com.huizhi.dass.model.City;
 import com.huizhi.dass.model.LoginAccount;
 import com.huizhi.dass.model.Menu;
 import com.huizhi.dass.model.Role;
+import com.w.push.entity.App;
+import com.w.push.entity.Channel;
 import com.w.push.entity.Partner;
 import com.w.push.entity.PushContent;
+import com.w.push.entity.Type;
+import com.w.push.service.AppService;
+import com.w.push.service.ChannelService;
 import com.w.push.service.PartnerService;
 import com.w.push.service.PushContentService;
 
@@ -35,6 +40,10 @@ public class Funcs implements Constants {
     private static CityService cityService;
     
     private static PartnerService partnerService;
+    
+    private static AppService appService;
+    
+    private static ChannelService channelService;
     
     private static PushContentService pushContentService;
 
@@ -171,6 +180,16 @@ public class Funcs implements Constants {
 	}
 
     @Autowired
+    public void setAppService(AppService appService) {
+		Funcs.appService = appService;
+	}
+
+    @Autowired
+	public void setChannelService(ChannelService channelService) {
+		Funcs.channelService = channelService;
+	}
+
+	@Autowired
 	public void setPushContentService(PushContentService pushContentService) {
 		Funcs.pushContentService = pushContentService;
 	}
@@ -186,6 +205,26 @@ public class Funcs implements Constants {
     	return "";
     }
 	
+	public static String getChannelName(Long channelId) {
+    	try {
+    		Channel channel = channelService.getEntityById(channelId);
+    		if(channel != null) {
+    			return channel.getName();
+    		}
+		} catch (Exception e) {
+		}
+    	return "";
+    }
+	public static String getAppName(Long appId) {
+    	try {
+    		App app = appService.getEntityById(appId);
+    		if(app != null) {
+    			return app.getName();
+    		}
+		} catch (Exception e) {
+		}
+    	return "";
+    }
 	public static String getPushContentTitle(Long contentId) {
     	try {
     		PushContent entity = pushContentService.getEntityById(contentId);
@@ -196,5 +235,17 @@ public class Funcs implements Constants {
 		}
     	return "";
     }
+	
+	public static String getCmd(Integer id) {
+		return Type.Cmd.valueOf(id);
+	}
+	
+	public static String getMsgType(Integer id) {
+		return Type.MsgType.valueOf(id);
+	}
+	
+	public static String getStatus(Integer id) {
+		return Type.Status.valueOf(id);
+	}
 
 }

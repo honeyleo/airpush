@@ -46,11 +46,11 @@
         <c:forEach items="${requestScope.result.data}" var="entity" varStatus="var">
             <tr target="sid" rel="${entity.id}">
                 <td>${entity.id}</td>
-                <td>${entity.contentId}</td>
+                <td>${funcs:getPushContentTitle(entity.contentId) }</td>
                 <td>${entity.uui}</td>
-                <td>${entity.channelId}</td>
-                <td>${entity.partnerId}</td>
-                <td>${entity.appId}</td>
+                <td>${funcs:getChannelName(entity.channelId) }</td>
+                <td>${funcs:getPartnerName(entity.partnerId) }</td>
+                <td>${funcs:getAppName(entity.appId) }</td>
                 <td>${entity.status}</td>
                 <td>${funcs:formatDateTime(entity.pushTime,'yyyy-MM-dd hh:mm:ss')}</td>
                 <td>${funcs:formatDateTime(entity.hitTime,'yyyy-MM-dd hh:mm:ss')}</td>

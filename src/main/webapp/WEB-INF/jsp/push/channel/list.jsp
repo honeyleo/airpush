@@ -38,8 +38,8 @@
         <table class="table" width="100%" layoutH="138">
             <thead>
             <tr>
-                <th width="80">ID</th>
-                <th width="120">商户名称</th>
+                <th width="80">渠道编号</th>
+                <th width="120">渠道名称</th>
                 <th width="120">创建时间</th>
             </tr>
         </thead>

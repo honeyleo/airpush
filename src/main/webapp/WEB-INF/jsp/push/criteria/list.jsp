@@ -39,6 +39,7 @@
             <thead>
             <tr>
                 <th width="80">ID</th>
+                <th width="120">内容主题</th>
                 <th width="120">渠道</th>
                 <th width="120">商户</th>
                 <th width="120">应用</th>
@@ -53,9 +54,10 @@
         <c:forEach items="${requestScope.result.data}" var="entity" varStatus="var">
             <tr target="sid" rel="${entity.id}">
                 <td>${entity.id}</td>
-                <td>${entity.channelId}</td>
-                <td>${entity.partnerId}</td>
-                <td>${entity.appId}</td>
+                <td>${funcs:getPushContentTitle(entity.contentId) }</td>
+                <td>${funcs:getChannelName(entity.channelId) }</td>
+                <td>${funcs:getPartnerName(entity.partnerId) }</td>
+                <td>${funcs:getAppName(entity.appId) }</td>
                 <td>${funcs:formatDateTime(entity.startTime,'yyyy-MM-dd hh:mm:ss')}</td>
                 <td>${funcs:formatDateTime(entity.endTime,'yyyy-MM-dd hh:mm:ss')}</td>
                 <td>${entity.status}</td>
