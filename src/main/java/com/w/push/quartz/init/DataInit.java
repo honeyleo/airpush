@@ -21,8 +21,6 @@ import com.w.push.service.PushCriteriaService;
 
 public class DataInit {
 
-	private final static int EXPIRE = 86500;
-	
 	@Resource private ChannelService channelService;
 	@Resource private PartnerService partnerService;
 	@Resource private AppService appService;
@@ -46,6 +44,7 @@ public class DataInit {
 		for(Channel entity : list) {
 			cache.hset(Key.KEY_CHANNEL, String.valueOf(entity.getId()), entity.getName());
 		}
+		cache.expire(Key.KEY_CHANNEL, Cache.ONE_DAY);
 	}
 	private void initPartner() {
 		Criteria criteria = new Criteria();
@@ -53,6 +52,7 @@ public class DataInit {
 		for(Partner entity : list) {
 			cache.hset(Key.KEY_PARTNER, String.valueOf(entity.getId()), entity.getName());
 		}
+		cache.expire(Key.KEY_PARTNER, Cache.ONE_DAY);
 	}
 	private void initApp() {
 		Criteria criteria = new Criteria();
@@ -61,6 +61,7 @@ public class DataInit {
 			String value = JSON.toJSONString(entity);
 			cache.hset(Key.KEY_APP, String.valueOf(entity.getId()), value);
 		}
+		cache.expire(Key.KEY_APP, Cache.ONE_DAY);
 	}
 	
 	private void initPush() {
@@ -78,6 +79,7 @@ public class DataInit {
 				String value2 = JSON.toJSONString(ec);
 				cache.hset(Key.KEY_CRITERIA + entity.getId(), String.valueOf(ec.getId()), value2);
 			}
+			cache.expire(Key.KEY_CRITERIA + entity.getId(), Cache.ONE_DAY);
 		}
 	}
 }

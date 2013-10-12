@@ -12,13 +12,50 @@
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
 
-    <context:component-scan base-package="com.w.push.service" />
-    <context:component-scan base-package="com.w.push.manager" />
-	
-	<!-- 异常处理 -->
-	<bean id="exceptionHandler" class="com.w.core.exception.ExceptionHandler" />
-	
-	<bean class="com.w.core.web.AppContext" id="appContext"></bean>
-	
-	<import resource="spring-redis.xml"/>
+    	<context:property-placeholder location="classpath:redis.properties" />
+	<bean
+		id="jedisPoolConfig"
+		class="redis.clients.jedis.JedisPoolConfig">
+		<property
+			name="maxActive"
+			value="${redis.pool.maxActive}" />
+		<property
+			name="maxIdle"
+			value="${redis.pool.maxIdle}" />
+		<property
+			name="maxWait"
+			value="${redis.pool.maxWait}" />
+		<property
+			name="testOnBorrow"
+			value="${redis.pool.testOnBorrow}" />
+	</bean>
+	<bean
+		id="shardedJedisPool"
+		class="redis.clients.jedis.ShardedJedisPool">
+		<constructor-arg
+			index="0"
+			ref="jedisPoolConfig" />
+		<constructor-arg index="1">
+			<list>
+				<bean class="redis.clients.jedis.JedisShardInfo">
+					<constructor-arg
+						index="0"
+						value="${redis1.ip}" />
+					<constructor-arg
+						index="1"
+						value="${redis1.port}"
+						type="int" />
+				</bean>
+				<bean class="redis.clients.jedis.JedisShardInfo">
+					<constructor-arg
+						index="0"
+						value="${redis2.ip}" />
+					<constructor-arg
+						index="1"
+						value="${redis2.port}"
+						type="int" />
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
 </beans>
