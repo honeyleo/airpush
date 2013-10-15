@@ -48,6 +48,7 @@ $(function(){
                 <th width="120">URL</th>
                 <th width="120">状态</th>
                 <th width="120">创建时间</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -60,6 +61,7 @@ $(function(){
                 <td>${op.msgType}</td>
                 <td>${op.url}</td>
                 <td>${op.status}</td>
+                <td>${funcs:formatDateTime(op.createTime,'yyyy-MM-dd hh:mm:ss')}</td>
                 <td>
                     <a class="btnSelect" href="javascript:$.bringBack({contentId:${op.id}, contentTitle:'${op.title}'})" title="查找带回">选择</a>
                 </td>

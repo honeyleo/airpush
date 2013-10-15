@@ -1,10 +1,11 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="funcs" uri="funcs" %>
+
 <form id="pagerForm" method="post" action="view/content/list">
     <input type="hidden" name="pageNum" value="${requestScope.result.nowPage}" />
     <input type="hidden" name="numPerPage" value="${requestScope.reslut.pageSize}" />
-    <input type="hidden" name="name" value="${param.title}" />
+    <input type="hidden" name="title" value="${param.title}" />
 </form>
 
 <div class="pageHeader">
@@ -14,6 +15,17 @@
         <tr>
             <td>
                         主题：<input type="text" name=title value="${param.title}"/> 
+            </td>
+            <td>
+            <div class="unit">
+		        <label>状态：</label>
+	  			<select name="status" class="required combox" >
+	  				<option value="" >全部</option>
+	       			<option value="0" <c:if test="${param.status==0}">selected="selected"</c:if>>未发布</option>
+	  				<option value="1" <c:if test="${param.status==1}">selected="selected"</c:if>>发布</option>
+	  				<option value="-1" <c:if test="${param.status==-1}">selected="selected"</c:if>>删除</option>
+	  			</select>       
+	      	</div> 
             </td>
         </tr>
       </table>

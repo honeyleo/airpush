@@ -4,16 +4,48 @@
 <form id="pagerForm" method="post" action="view/criteria/list">
     <input type="hidden" name="pageNum" value="${requestScope.result.nowPage}" />
     <input type="hidden" name="numPerPage" value="${requestScope.reslut.pageSize}" />
-    <input type="hidden" name="contentId" value="${contentId}" />
+    <input type="hidden" name="contentId" value="${param.contentId}" />
+    <input type="hidden" name="channelId" value="${param.channelId}" />
+    <input type="hidden" name="partnerId" value="${param.partnerId}" />
+    <input type="hidden" name="appId" value="${param.appId}" />
 </form>
 
 <div class="pageHeader">
-    <form onsubmit="return navTabSearch(this);" action="view/content/list" method="post" class="pageForm required-validate">
+    <form onsubmit="return navTabSearch(this);" action="view/criteria/list" method="post" class="pageForm required-validate">
       <div class="searchBar">
       <table class="searchContent">
         <tr>
             <td>
-                        主题：<input type="text" name=title value="${param.title}"/> 
+            <p>
+	      	<label>关联内容：</label>
+            <input type="hidden" name="contentId" value="${param.contentId }"/>
+        	<input class="textInput" style="float: left;" value="${funcs:getPushContentTitle(param.contentId) }" type="text" name="contentTitle"/>
+        	<a class="btnLook"  lookupgroup="" href="view/criteria/contentLookup">查找带回</a>
+	      	</p>
+            </td>
+            <td>
+            <p>
+	      	<label>关联渠道：</label>
+            <input type="hidden" name="channelId" value="${param.channelId }"/>
+        	<input class="textInput" style="float: left;" type="text" name="channelName" value="${funcs:getChannelName(param.channelId) }"/>
+        	<a class="btnLook"  lookupgroup="" href="view/criteria/channelLookup">查找带回</a>
+	      	</p>
+            </td>
+            <td>
+            <p>
+	      	<label>关联商户：</label>
+            <input type="hidden" name="partnerId" value="${param.partnerId }"/>
+        	<input class="textInput" style="float: left;" type="text" name="partnerName" value="${funcs:getPartnerName(param.partnerId) }"/>
+        	<a class="btnLook"  lookupgroup="" href="view/criteria/partnerLookup">查找带回</a>
+	      	</p>
+            </td>
+            <td>
+            <p>
+	      	<label>关联应用：</label>
+            <input type="hidden" name="appId" value="${param.appId }"/>
+        	<input class="textInput" style="float: left;" type="text" name="appName" value="${funcs:getAppName(param.appId) }"/>
+        	<a class="btnLook"  lookupgroup="" href="view/criteria/appLookup">查找带回</a>
+	      	</p>
             </td>
         </tr>
       </table>

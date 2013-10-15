@@ -34,29 +34,46 @@
 			<if test="condition.uui != null">
 				and uui = #{condition.uui}
 			</if>
+			<if test="condition.contentId != null">
+				and contentId = #{condition.contentId}
+			</if>
+			<if test="condition.channelId != null">
+				and channelId = #{condition.channelId}
+			</if>
+			<if test="condition.partnerId != null">
+				and partnerId = #{condition.partnerId}
+			</if>
+			<if test="condition.appId != null">
+				and appId = #{condition.appId}
+			</if>
 		</trim>
 	</sql>
 	<select id="count" resultType="int">
 		select count(*) c from pushLog;
 	</select>
 	<insert id="save">
-		INSERT INTO pushLog(contentId,uui,channelId,partnerId,appId,pushTime,status)
+		INSERT INTO
+		pushLog(contentId,uui,channelId,partnerId,appId,pushTime,status)
 		VALUES(#{contentId},#{uui},#{channelId},#{partnerId},#{appId},#{pushTime},#{status})
 	</insert>
 	<insert id="insertInto">
-		INSERT INTO pushLog(contentId,uui,channelId,partnerId,appId,status,hitTime)
+		INSERT INTO
+		pushLog(contentId,uui,channelId,partnerId,appId,status,hitTime)
 		VALUES(#{contentId},#{uui},#{channelId},#{partnerId},#{appId},#{status},#{hitTime})
-		ON DUPLICATE KEY UPDATE channelId=VALUES(channelId),partnerId=VALUES(partnerId),appId=VALUES(appId),status=VALUES(status),hitTime=VALUES(hitTime)
+		ON DUPLICATE KEY UPDATE
+		channelId=VALUES(channelId),partnerId=VALUES(partnerId),appId=VALUES(appId),status=VALUES(status),hitTime=VALUES(hitTime)
 	</insert>
 	<select id="getEntity" resultType="com.w.push.entity.PushLog">
 		SELECT * FROM pushLog
 	</select>
 	<select id="getEntityById" parameterType="Long"
 		resultType="com.w.push.entity.PushLog" useCache="true">
-		SELECT * FROM pushLog WHERE id=#{id}
+		SELECT * FROM pushLog
+		WHERE id=#{id}
 	</select>
 	<delete id="delete" parameterType="String">
-		DELETE FROM pushLog WHERE id=#{id}
+		DELETE FROM pushLog WHERE
+		id=#{id}
 	</delete>
 	<update id="update" parameterType="com.w.push.entity.PushLog">
 		UPDATE pushLog

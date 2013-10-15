@@ -20,5 +20,6 @@
 	
 	<bean class="com.w.core.web.AppContext" id="appContext"></bean>
 	
-	<import resource="spring-redis.xml"/>
+	<import resource="spring-redis2.xml"/>
+	<bean id="redisBase" class="com.w.push.cache.RedisBase"/>
 </beans>

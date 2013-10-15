@@ -55,6 +55,7 @@ public class Cache {
 			jedis.set(key, value);
 		} catch(Exception e){
 			System.err.println(e.getMessage());
+			pool.returnBrokenResource(jedis);
 		} finally {
 			pool.returnResource(jedis);
 		}
@@ -68,6 +69,7 @@ public class Cache {
 			jedis.expire(key, expire);
 		} catch(Exception e){
 			System.err.println(e.getMessage());
+			pool.returnBrokenResource(jedis);
 		} finally {
 			pool.returnResource(jedis);
 		}
@@ -81,6 +83,7 @@ public class Cache {
 			return value;
 		} catch(Exception e){
 			System.err.println(e.getMessage());
+			pool.returnBrokenResource(jedis);
 		} finally {
 			pool.returnResource(jedis);
 		}
@@ -94,6 +97,7 @@ public class Cache {
 			jedis.hset(key, field, value);
 		} catch(Exception e) {
 			System.err.println(e.getMessage());
+			pool.returnBrokenResource(jedis);
 		} finally {
 			pool.returnResource(jedis);
 		}
@@ -107,21 +111,36 @@ public class Cache {
 		} catch(Exception e) {
 			e.printStackTrace();
 			System.err.println(e.getMessage());
+			pool.returnBrokenResource(jedis);
 		} finally {
 			pool.returnResource(jedis);
 		}
 		
+	}
+	public boolean hexists(String key, String field) {
+		ShardedJedis jedis = null;
+		try {
+			jedis = pool.getResource();
+			boolean ret = jedis.hexists(key, field);
+			pool.returnResource(jedis);
+			return ret;
+		} catch(Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getMessage());
+			pool.returnBrokenResource(jedis);
+		} 
+		return false;
 	}
 	public String hget(String key, String field) {
 		ShardedJedis jedis = null;
 		try {
 			jedis = pool.getResource();
 			String value = jedis.hget(key, field);
+			pool.returnResource(jedis);
 			return value;
 		} catch(Exception e) {
 			System.err.println(e.getMessage());
-		} finally {
-			pool.returnResource(jedis);
+			pool.returnBrokenResource(jedis);
 		}
 		return null;
 	}
@@ -132,6 +151,7 @@ public class Cache {
 			return jedis.hgetAll(key);
 		} catch(Exception e) {
 			System.err.println(e.getMessage());
+			pool.returnBrokenResource(jedis);
 		} finally {
 			pool.returnResource(jedis);
 		}
@@ -145,6 +165,7 @@ public class Cache {
 			return jedis.incr(key);
 		} catch(Exception e) {
 			System.err.println(e.getMessage());
+			pool.returnBrokenResource(jedis);
 		} finally {
 			pool.returnResource(jedis);
 		}
@@ -158,6 +179,7 @@ public class Cache {
 			return jedis.incrBy(key, integer);
 		} catch(Exception e) {
 			System.err.println(e.getMessage());
+			pool.returnBrokenResource(jedis);
 		} finally {
 			pool.returnResource(jedis);
 		}
@@ -171,11 +193,17 @@ public class Cache {
 			return jedis.expire(key, seconds);
 		} catch(Exception e) {
 			System.err.println(e.getMessage());
+			pool.returnBrokenResource(jedis);
 		} finally {
 			pool.returnResource(jedis);
 		}
 		return 0;
 	}
+	
+	public void returnResource(ShardedJedis jedis) {
+		pool.returnResource(jedis);
+	}
+	
 	public final static int ONE_DAY = 60 * 60 * 24;
 	
 	public final static int ONE_HOURS = 60 * 60;

@@ -13,10 +13,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
-import com.google.common.base.Strings;
 import com.huizhi.dass.common.util.RequestUtil;
-import com.w.push.cache.Cache;
 import com.w.push.cache.Key;
+import com.w.push.cache.RedisBase;
 import com.w.push.entity.Device;
 import com.w.push.service.DeviceService;
 
@@ -25,18 +24,14 @@ public class DeviceManager {
 
 	private final static Logger LOG = LoggerFactory.getLogger(DeviceManager.class);
 	
-	final static Executor pool = new ThreadPoolExecutor(2, 65536 << 1, 30, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
+	final static Executor pool = new ThreadPoolExecutor(2, 100, 30, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
 	
 	@Resource private DeviceService deviceService;
 	
-	private Cache cache = Cache.getInstance();
+	@Resource private RedisBase redis;
 	
 	public boolean isExist(String uui) {
-		String value = cache.hget(Key.KEY_DEVICE, uui);
-		if(Strings.isNullOrEmpty(value)) {
-			return false;
-		}
-		return true;
+		return redis.HASH.hexists(Key.KEY_DEVICE, uui);
 	}
 	public String createSession(HttpServletRequest request) {
 		final String imei = RequestUtil.getString(request, "imei");
@@ -49,7 +44,7 @@ public class DeviceManager {
 		device.setOperator(operator);
 		device.setUui(uui);
 		String value = JSON.toJSONString(device);
-		cache.hset(Key.KEY_DEVICE, uui, value);
+		redis.HASH.hset(Key.KEY_DEVICE, uui, value);
 		pool.execute(new Runnable() {
 			
 			@Override

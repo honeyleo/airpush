@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
@@ -15,6 +17,7 @@ import com.w.core.exception.AppException;
 import com.w.core.model.Message;
 import com.w.push.cache.Cache;
 import com.w.push.cache.Key;
+import com.w.push.cache.RedisBase;
 import com.w.push.entity.App;
 import com.w.push.entity.PushContent;
 import com.w.push.entity.PushCriteria;
@@ -24,10 +27,11 @@ import com.w.push.quartz.log.LogScheduleInfoManager;
 @Component
 public class PushManager {
 
+	@Resource private RedisBase redis;
+	
 	public Message getPushContent(String uui, String qn, Long cid) {
 		
 		Message.Builder builder = Message.Builder.newBuilder();
-		Cache cache = Cache.getInstance();
 		try {
 			if(Strings.isNullOrEmpty(qn)) {
 				throw new AppException("100", "qn error");
@@ -37,17 +41,17 @@ public class PushManager {
 				throw new AppException("100", "qn error");
 			}
 			long channelId = Long.parseLong(qns[0]);
-			String channel = cache.hget(Key.KEY_CHANNEL, qns[0]);
+			String channel = redis.HASH.hget(Key.KEY_CHANNEL, qns[0]);
 			if(Strings.isNullOrEmpty(channel)) {
 				throw new AppException("101", "channel not found");
 			}
 			long appId = Long.parseLong(qns[1]);
-			String aValue = cache.hget(Key.KEY_APP, qns[1]);
+			String aValue = redis.HASH.hget(Key.KEY_APP, qns[1]);
 			App app = JSON.parseObject(aValue, App.class);
 			if(app == null) {
 				throw new AppException("102", "channel not found");
 			}
-			Map<String,String> contentMap = cache.hgetAll(Key.KEY_CONTENT);
+			Map<String,String> contentMap = redis.HASH.hgetall(Key.KEY_CONTENT);
 			if(contentMap == null || contentMap.isEmpty()) {
 				builder.put("c", 0);
 				return builder.build();
@@ -58,7 +62,7 @@ public class PushManager {
 					break;
 				}
 				PushContent entity = JSON.parseObject(entry.getValue(), PushContent.class);
-				Map<String,String> criteraiMap = cache.hgetAll(Key.KEY_CRITERIA + entry.getKey());
+				Map<String,String> criteraiMap = redis.HASH.hgetall(Key.KEY_CRITERIA + entry.getKey());
 				Collection<String> coll = criteraiMap.values();
 				boolean flag = true;
 				int i = 0;

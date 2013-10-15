@@ -20,6 +20,12 @@ public class Device {
 	
 	private Boolean online;//在线否
 	
+	private Long channelId;//渠道
+	
+	private Long partnerId;//商户
+	
+	private Long appId;//应用
+	
 	private Date createTime;
 
 	public Long getId() {
@@ -92,6 +98,30 @@ public class Device {
 
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
+	}
+
+	public Long getChannelId() {
+		return channelId;
+	}
+
+	public void setChannelId(Long channelId) {
+		this.channelId = channelId;
+	}
+
+	public Long getPartnerId() {
+		return partnerId;
+	}
+
+	public void setPartnerId(Long partnerId) {
+		this.partnerId = partnerId;
+	}
+
+	public Long getAppId() {
+		return appId;
+	}
+
+	public void setAppId(Long appId) {
+		this.appId = appId;
 	}
 	
 	

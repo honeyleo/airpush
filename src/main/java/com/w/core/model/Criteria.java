@@ -21,7 +21,7 @@ public class Criteria {
     /**
      * 排序字段
      */
-    protected LinkedHashMap<String, Boolean> orderMap;
+    protected LinkedHashMap<String, Object> orderMap;
 
     private Integer offset;
 
@@ -37,7 +37,7 @@ public class Criteria {
 
     public Criteria() {
         condition = new HashMap<String, Object>();
-        orderMap = new LinkedHashMap<String, Boolean>();
+        orderMap = new LinkedHashMap<String, Object>();
     }
 
     public void clear() {
@@ -59,7 +59,8 @@ public class Criteria {
     }
 
     public Criteria putOrder(String condition, boolean isDesc) {
-    	this.orderMap.put(condition, isDesc);
+    	String order = isDesc ? "DESC" : "ASC";
+    	this.orderMap.put(condition, order);
     	return (Criteria) this;
     }
 
@@ -79,11 +80,11 @@ public class Criteria {
         return condition;
     }
     
-    public LinkedHashMap<String, Boolean> getOrderMap() {
+    public LinkedHashMap<String, Object> getOrderMap() {
 		return orderMap;
 	}
 
-	public void setOrderMap(LinkedHashMap<String, Boolean> orderMap) {
+	public void setOrderMap(LinkedHashMap<String, Object> orderMap) {
 		this.orderMap = orderMap;
 	}
 

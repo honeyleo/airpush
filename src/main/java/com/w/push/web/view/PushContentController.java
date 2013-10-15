@@ -45,6 +45,12 @@ public class PushContentController {
         if (StringUtils.isNotBlank(title)) {
             criteria.put("titleLike", title);
         }
+        String strStatus = request.getParameter("status");
+        if(StringUtils.isNotBlank(strStatus)) {
+        	int status = Integer.parseInt(strStatus);
+        	criteria.put("status", status);
+        }
+        criteria.putOrder("id", true);
         PageInfo<PushContent> result = pushContentService.findListByCriteria(criteria, pageNum, listPageSize);
         request.setAttribute("result", result);
         return new ModelAndView(LIST);

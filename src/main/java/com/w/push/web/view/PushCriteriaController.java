@@ -48,14 +48,26 @@ public class PushCriteriaController {
 	@RequestMapping("/list")
     public ModelAndView list(HttpServletRequest request) throws AppException {
 
-        Long contentId = RequestUtil.getLong(request, "contentId");
         Integer pageNum = RequestUtil.getInteger(request, "pageNum");
         if (pageNum == null || pageNum <= 0) {// 判断页码是否为空
             pageNum = 1;
         }
         Criteria criteria = new Criteria();
+        Long contentId = RequestUtil.getLong(request, "contentId");
         if(contentId > 0) {
         	criteria.put("contentId", contentId);
+        }
+        Long channelId = RequestUtil.getLong(request, "channelId");
+        if(channelId > 0) {
+        	criteria.put("channelId", channelId);
+        }
+        Long partnerId = RequestUtil.getLong(request, "partnerId");
+        if(partnerId > 0) {
+        	criteria.put("partnerId", partnerId);
+        }
+        Long appId = RequestUtil.getLong(request, "appId");
+        if(appId > 0) {
+        	criteria.put("appId", appId);
         }
         PageInfo<PushCriteria> result = pushCriteriaService.findListByCriteria(criteria, pageNum, listPageSize);
         request.setAttribute("contentId", contentId);

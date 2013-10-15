@@ -53,7 +53,7 @@
       <if test="condition.name != null" >
          and name = #{condition.name}
       </if>
-      <if test="condition.usernameLike != null" >
+      <if test="condition.nameLike != null" >
          and name like '%${condition.nameLike}%'
       </if>
     </trim>

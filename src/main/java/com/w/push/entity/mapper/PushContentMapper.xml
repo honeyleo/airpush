@@ -61,10 +61,10 @@
   <sql id="Example_Order_Clause">
   	<trim prefix="order by" prefixOverrides="," >
   		<if test="orderMap.id != null">
-  			,id #{orderMap.id}
+  			,id ${orderMap.id}
   		</if>
   		<if test="orderMap.createTime != null" >
-         and createTime #{orderMap.createTime}
+         and createTime ${orderMap.createTime}
       </if>
   	</trim>
   </sql>

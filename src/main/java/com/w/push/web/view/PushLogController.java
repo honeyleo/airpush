@@ -36,6 +36,18 @@ public class PushLogController {
         if(contentId > 0) {
         	criteria.put("contentId", contentId);
         }
+        Long channelId = RequestUtil.getLong(request, "channelId");
+        if(channelId > 0) {
+        	criteria.put("channelId", channelId);
+        }
+        Long partnerId = RequestUtil.getLong(request, "partnerId");
+        if(partnerId > 0) {
+        	criteria.put("partnerId", partnerId);
+        }
+        Long appId = RequestUtil.getLong(request, "appId");
+        if(appId > 0) {
+        	criteria.put("appId", appId);
+        }
         PageInfo<PushLog> result = pushLogService.findListByCriteria(criteria, pageNum, listPageSize);
         request.setAttribute("contentId", contentId);
         request.setAttribute("result", result);
